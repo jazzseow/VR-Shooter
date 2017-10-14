@@ -5,6 +5,7 @@ session_start();
 <!DOCTYPE html> 
 <html xmlns="http://www.w3.org/1999/xhtml"> 
 	<head> 
+		<script src="http://hammerjs.github.io/dist/hammer.min.js"></script>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
 		<link rel="apple-touch-icon" href="apple-touch-icon.png" />
 		<title>Gyro Demo</title> 
@@ -112,35 +113,34 @@ session_start();
 		</div>
 
 		
-		<script> 
-			window.addEventListener('load', function(){
- 
-				var box1 = document.getElementById('boxx')
-				var statusdiv = document.getElementById('statusdiv')
-				var startx = 0
-				var dist = 0
-			 
-				box1.addEventListener('touchstart', function(e){
-					var touchobj = e.changedTouches[0] // reference first touch point (ie: first finger)
-					startx = parseInt(touchobj.clientX) // get x position of touch point relative to left edge of browser
-					statusdiv.innerHTML = 'Status: touchstart<br> ClientX: ' + startx + 'px'
-					e.preventDefault()
-				}, false)
-			 
-				box1.addEventListener('touchmove', function(e){
-					var touchobj = e.changedTouches[0] // reference first touch point for this event
-					var dist = parseInt(touchobj.clientX) - startx
-					statusdiv.innerHTML = 'Status: touchmove<br> Horizontal distance traveled: ' + dist + 'px'
-					e.preventDefault()
-				}, false)
-			 
-				box1.addEventListener('touchend', function(e){
-					var touchobj = e.changedTouches[0] // reference first touch point for this event
-					statusdiv.innerHTML = 'Status: touchend<br> Resting x coordinate: ' + touchobj.clientX + 'px'
-					e.preventDefault()
-				}, false)
-		 
-			}, false)
+		<script>
+		
+			var stage = document.getElementById("boxx"); 
+			var statusdiv = document.getElementById('statusdiv');
+			
+			var mc = new Hammer(stage);
+			mc.get('swipe').set({ direction: Hammer.DIRECTION_ALL });
+
+			mc.on("swipeleft", function () { 
+				statusdiv.innerHTML = 'swipeleft'
+			}); 
+          
+           mc.on("swiperight", function () { 
+				statusdiv.innerHTML = 'swiperight'
+			});
+			
+			mc.on("swipeup", function () { 
+				statusdiv.innerHTML = 'swipeup'
+			}); 
+			
+			mc.on("swipedown", function () { 
+				statusdiv.innerHTML = 'swipedown'
+			});
+			
+			mc.on("tap", function () { 
+				statusdiv.innerHTML = 'tap'
+			});
+			
 			// Position Variables
 			var x = 0;
 			var y = 0;
