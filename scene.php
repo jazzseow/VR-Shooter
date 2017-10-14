@@ -28,7 +28,7 @@
 
                 <!-- Define the Camera and Cursor -->
                 <a-entity position="0 2.2 4">
-                    <a-entity camera look-controls wasd-controls>
+                    <a-entity id="camera" camera look-controls wasd-controls>
                         <a-entity position="0 0 -3"
                             geometry="primitive: ring; radiusInner: 0.2; radiusOuter: 0.3;"
                             material="color: cyan; shader: flat"
@@ -39,7 +39,7 @@
                         fill="backwards" from="1 1 1" to="0.2 0.2 0.2" dur="1500"></a-animation>
                         </a-entity>
                     </a-entity>
-              </a-entity>
+				</a-entity>
                 <!-- Sample Box Assets -->
                 <a-entity id="chair" position="-1.5 0 -3">
                     <a-box width="0.05" height="0.46" depth="0.05" position="-0.21 0.23 0.23" color="#555"></a-box>
@@ -60,7 +60,30 @@
                 <a-plane rotation="0 -90 0" width="10" height="3" color="#BCC6CD" position="4 1.5 1"></a-plane>
                 <a-plane rotation="0 90 0" width="10" height="3" color="#BCC6CD" position="-4 1.5 1"></a-plane>
                 <a-plane rotation="0 180 0" width="8" height="3" color="#BCC6CD" position="0 1.5 6"></a-plane>
+				
+				<a-entity id="bullet" >
+					<a-box  height='1' width='1' depth='3'/>
+					<a-animation attribute="position"
+					dur="1000"
+					to='0 0 -10'
+					repeat="indefinite"></a-animation> 
+				</a-entity>
+				<a-entity id="text" position='0 5 0'></a-entity>
             </a-scene>
         </body>
+		<script type="text/javascript">
+			var t1= "width:10; value:";
+			
+			setInterval(function() {
+				var rot = document.querySelector("#camera").getAttribute('rotation');
+				var pos = document.querySelector("#camera").getAttribute('position');
+				var t3 = t1.concat(pos.x, pos.y, pos.z);
+				document.querySelector("#text").setAttribute('text', t3);
+				document.querySelector("#bullet").setAttribute('position', {x:pos.x,y:pos.y,z:pos.z});
+				document.querySelector("#bullet").setAttribute('rotation', {x:rot.x,y:rot.y,z:rot.z});
+			},1);
+			
+		</script>
+		
 </html>
 

@@ -3,13 +3,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-		<script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
-		<script src="http://hammerjs.github.io/dist/hammer.min.js"></script>
-		<link rel="apple-touch-icon" href="apple-touch-icon.png" />
-		<meta name="apple-touch-fullscreen" content="yes" />
-		<meta name="apple-mobile-web-app-capable" content="yes" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+	<script src="http://hammerjs.github.io/dist/hammer.min.js"></script>
+	<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+	<meta name="apple-touch-fullscreen" content="yes" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
     <title>Chat Gyro Demo</title>
     
@@ -89,103 +89,86 @@
 			}
 			return false;
 		}
-		
 	?>
 
 </head>
 
 <body onload="setInterval('chat.update()', 1)">
-	<div id="boxx">
-            <!-- Define the Scenes within the VR -->
-            <a-scene>
-				
+	<?php if (isMobile()): ?> 
+		<div id="boxx">
+		<!-- Define the Scenes within the VR -->
+			<a-scene>
 				<a-entity id='cameraWrapper' position="0 0 0" rotation="0 0 0">
 				<a-camera  camera="zoom: 1" look-controls="enabled: true"></a-camera>
 				</a-entity>
-				
-                <!-- Define and Import the Assets -->
-                <a-assets>
-                    <img id="texture" src="assets/texture.jpg"/>
-                    <img id="sky" src="assets/skybox.jpg">
+			</a-scene>
+		</div>
+	<?php else: ?>
+	<!-- Define the Scenes within the VR -->
+		<a-scene>
+			<!-- Define and Import the Assets -->
+			<a-assets>
+				<img id="texture" src="assets/texture.jpg"/>
+				<img id="sky" src="assets/skybox.jpg">
 
-                    <a-mixin id="cube" geometry="primitive: box"></a-mixin>
-                    <a-mixin id="cube-hovered" material="color: magenta"></a-mixin>
-                    <a-mixin id="cube-selected" material="color: cyan"></a-mixin>
-                    <a-mixin id="red" material="color: red"></a-mixin>
-                    <a-mixin id="green" material="color: green"></a-mixin>
-                    <a-mixin id="blue" material="color: blue"></a-mixin>
-                    <a-mixin id="yellow" material="color: yellow"></a-mixin>
-                    <a-mixin id="sphere" geometry="primitive: sphere"></a-mixin>
-                </a-assets>
+				<a-mixin id="cube" geometry="primitive: box"></a-mixin>
+				<a-mixin id="cube-hovered" material="color: magenta"></a-mixin>
+				<a-mixin id="cube-selected" material="color: cyan"></a-mixin>
+				<a-mixin id="red" material="color: red"></a-mixin>
+				<a-mixin id="green" material="color: green"></a-mixin>
+				<a-mixin id="blue" material="color: blue"></a-mixin>
+				<a-mixin id="yellow" material="color: yellow"></a-mixin>
+				<a-mixin id="sphere" geometry="primitive: sphere"></a-mixin>
+			</a-assets>
 
-                <!-- 360-degree Image -->
-                <a-sky src="#sky"></a-sky>
+			<!-- 360-degree Image -->
+			<a-sky src="#sky"></a-sky>
 
-                <!-- Define the Camera and Cursor -->
-                <a-entity position="0 1 4">
-                    <a-entity id='cameraView'  camera look-controls wasd-controls>
-                        <a-entity position="0 0 -3"
-                            geometry="primitive: ring; radiusInner: 0.1; radiusOuter: 0.2;"
-                            material="color: cyan; shader: flat"
-                            cursor="maxDistance: 30; fuse: true">
-                        <a-animation begin="click" easing="ease-in" attribute="scale"
-                            fill="forwards" from="0.2 0.2 0.2" to="1 1 1" dur="150"></a-animation>
-                        <a-animation begin="fusing" easing="ease-in" attribute="scale"
-                            fill="backwards" from="1 1 1" to="0.2 0.2 0.2" dur="1500"></a-animation>
-                        </a-entity>
-                    </a-entity>
-                </a-entity>
+			<!-- Define the Camera and Cursor -->
+			<a-entity position="0 2.2 4">
+				<a-entity id="camera" camera look-controls wasd-controls>
+					<a-entity position="0 0 -3"
+						geometry="primitive: ring; radiusInner: 0.2; radiusOuter: 0.3;"
+						material="color: cyan; shader: flat"
+						cursor="maxDistance: 30; fuse: true">
+				<a-animation begin="click" easing="ease-in" attribute="scale"
+					fill="forwards" from="0.2 0.2 0.2" to="1 1 1" dur="150"></a-animation>
+				<a-animation begin="fusing" easing="ease-in" attribute="scale"
+					fill="backwards" from="1 1 1" to="0.2 0.2 0.2" dur="1500"></a-animation>
+					</a-entity>
+				</a-entity>
+			</a-entity>
+			<!-- Sample Box Assets -->
+			<a-entity id="chair" position="-1.5 0 -3">
+				<a-box width="0.05" height="0.46" depth="0.05" position="-0.21 0.23 0.23" color="#555"></a-box>
+				<a-box width="0.05" height="0.46" depth="0.05" position="0.21 0.23 -0.23" color="#555"></a-box>
+				<a-box width="0.05" height="0.46" depth="0.05" position="0.21 0.23 0.23" color="#555"></a-box>
+				<a-box width="0.05" height="0.46" depth="0.05" position="-0.21 0.23 -0.23" color="#555"></a-box>
+				<a-box width="0.48" height="0.07" depth="0.52"  position="0 0.49 0" color="#333"></a-box>
+				<a-box width="0.48" height="0.51" depth="0.07"  position="0 0.78 -0.225" color="#333"></a-box>
+				<a-animation attribute="rotation" begin="click" repeat="0" to="0 360 0"></a-animation>
+			</a-entity>
 
-                <!-- Sample Box Assets -->
-                <a-entity id="chair" position="-1.5 0 -3">
-                    <a-box width="0.05" height="0.46" depth="0.05" position="-0.21 0.23 0.23" color="#555"></a-box>
-                    <a-box width="0.05" height="0.46" depth="0.05" position="0.21 0.23 -0.23" color="#555"></a-box>
-                    <a-box width="0.05" height="0.46" depth="0.05" position="0.21 0.23 0.23" color="#555"></a-box>
-                    <a-box width="0.05" height="0.46" depth="0.05" position="-0.21 0.23 -0.23" color="#555"></a-box>
-                    <a-box width="0.48" height="0.07" depth="0.52"  position="0 0.49 0" color="#333"></a-box>
-                    <a-box width="0.48" height="0.51" depth="0.07"  position="0 0.78 -0.225" color="#333"></a-box>
-                    <a-animation attribute="rotation" begin="click" repeat="0" to="0 360 0"></a-animation>
-                </a-entity>
-
-                <!-- Background -->
-                <a-plane rotation="-90 0 0" width="20" height="20" color="#8E9EAB" position="0 0 0"></a-plane>
-                <!-- Walls -->
-                <a-plane rotation="0 0 0" width="8" height="3" color="#BCC6CD" position="0 1.5 -4"></a-plane>
-                <a-plane rotation="0 -90 0" width="10" height="3" color="#BCC6CD" position="4 1.5 1"></a-plane>
-                <a-plane rotation="0 90 0" width="10" height="3" color="#BCC6CD" position="-4 1.5 1"></a-plane>
-                <a-plane rotation="0 180 0" width="8" height="3" color="#BCC6CD" position="0 1.5 6"></a-plane>
-            </a-scene>
-	</div>
+			<a-cylinder position="4 3 0" color="crimson" height="1" radius="0.5"></a-cylinder>
+			
+			<!-- Background -->
+			<a-plane rotation="-90 0 0" width="20" height="20" color="#8E9EAB" position="0 0 0"></a-plane>
+			<!-- Walls -->
+			<a-plane rotation="0 0 0" width="8" height="3" color="#BCC6CD" position="0 1.5 -4"></a-plane>
+			<a-plane rotation="0 -90 0" width="10" height="3" color="#BCC6CD" position="4 1.5 1"></a-plane>
+			<a-plane rotation="0 90 0" width="10" height="3" color="#BCC6CD" position="-4 1.5 1"></a-plane>
+			<a-plane rotation="0 180 0" width="8" height="3" color="#BCC6CD" position="0 1.5 6"></a-plane>
+			
+			<a-entity id="bullet" >
+				<a-box  height='1' width='1' depth='3'/>
+				<a-animation attribute="position"
+				dur="1000"
+				to='0 0 -10'
+				repeat="indefinite"></a-animation> 
+			</a-entity>
+			<a-entity id="text" position='0 5 0'></a-entity>
+		</a-scene>
+	<?php endif; ?>
 </body>
 
 </html>
-=======
-<html>
-    <head>
-        <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
-    </head>
-    
-	<body>
-		<a-scene>
-			<a-assets>
-				<img id="texture" src="img/texture.jpg" />
-			</a-assets>
-			
-			<a-entity id='cameraWrapper' position="0 0 0" rotation="45 0 0">
-			  <a-camera></a-camera>
-			</a-entity>
-			
-			<a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9" shadow></a-box>
-			<a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E" shadow></a-sphere>
-			<a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D" shadow></a-cylinder>
-			<a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4" shadow></a-plane>
-			<a-sky color="#ECECEC"></a-sky>
-				
-		</a-scene>
-		<script>
-			document.querySelector("#cameraWrapper").setAttribute('position', {x: 0, y: 0, z: });
-		</script>
-    </body>
-</html>
-
->>>>>>> 966e4196ad47d387fc7a6af03db777af91b9568a
