@@ -21,7 +21,7 @@
 			
 				$text= array();
 				$log['state'] = count($file);
-				for($i = 0; $i < 3; $i++){
+				for($i = 0; $i < 6; $i++){
 					$line = fgets($file);
 					array_push($text, $line);
 				}
@@ -38,6 +38,9 @@
 			$alpha = htmlentities(strip_tags($_POST['alpha']));
 			$beta = htmlentities(strip_tags($_POST['beta']));
 			$gamma = htmlentities(strip_tags($_POST['gamma']));
+			$x1 = htmlentities(strip_tags($_POST['x1']));
+			$y1 = htmlentities(strip_tags($_POST['y1']));
+			$z1 = htmlentities(strip_tags($_POST['z1']));
 			$reg_exUrl = "/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/";
 
 			$txt = "<span>Alpha</span>" . $alpha . "\n" ."<span>Beta</span>" . $beta . "\n" ."<span>Gamma</span>" . $gamma . "\n";
