@@ -122,24 +122,29 @@ session_start();
 			mc.get('swipe').set({ direction: Hammer.DIRECTION_ALL });
 
 			mc.on("swipeleft", function () { 
-				statusdiv.innerHTML = 'swipeleft'
+				statusdiv.innerHTML = 'swipe left'
 			}); 
           
            mc.on("swiperight", function () { 
-				statusdiv.innerHTML = 'swiperight'
+				statusdiv.innerHTML = 'swipe right'
 			});
 			
 			mc.on("swipeup", function () { 
-				statusdiv.innerHTML = 'swipeup'
+				statusdiv.innerHTML = 'swipe up'
 			}); 
 			
 			mc.on("swipedown", function () { 
-				statusdiv.innerHTML = 'swipedown'
+				statusdiv.innerHTML = 'swipe down'
 			});
 			
-			mc.on("tap", function () { 
+			mc.on("press", function (ev) { 
 				statusdiv.innerHTML = 'tap'
 			});
+			
+			mc.on("pressup", function (ev) { 
+				statusdiv.innerHTML = 'tap done'
+			});
+			
 			
 			// Position Variables
 			var x = 0;
