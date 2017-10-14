@@ -1,10 +1,6 @@
-<?php
-// Start the session
-session_start();
-?>
-<!DOCTYPE html> 
-<html xmlns="http://www.w3.org/1999/xhtml"> 
-	<head> 
+<html>
+    <head>
+        <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
 		<script src="http://hammerjs.github.io/dist/hammer.min.js"></script>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
 		<link rel="apple-touch-icon" href="apple-touch-icon.png" />
@@ -12,217 +8,66 @@ session_start();
 		<meta name="apple-touch-fullscreen" content="yes" />
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-		<style> 
-		#no {
-			display: none;	
-		}
-		
-		@media screen {
-			html, body, div, span {
-				margin: 0;
-			  padding: 0;
-			  border: 0;
-			  outline: 0;
-			  font-size: 100%;
-			  vertical-align: baseline;
-			}			
-			body {
-				height: auto;
-		  	-webkit-text-size-adjust:none;
-		  	font-family:Helvetica, Arial, Verdana, sans-serif;
-		  	padding:0px;
-				overflow-x: hidden;		
-			}		
-			
-			.outer {
-				background: rgba(123, 256, 245, 0.9);
-				padding: 0px;
-				min-height: 48px;
-				
-			}
-			
-			.box {
-				position: relative;
-				float: left;
-				width: 45%;
-				padding: 7px;
-				border: 1px solid rgba(255, 255, 255, 0.6);
-				background: rgba(178,215,255,0.75);
-				min-height: 160px;
-			}	
-			
-			.box2 {
-				position: relative;
-				float: left;
-				width: 45%;
-				padding: 7px;
-				border: 1px solid rgba(255, 255, 255, 0.6);
-				background: rgba(178,215,255,0.75);
-			}	
-			
-			.boxers {
-				position: relative;
-				float: left;
-				width: 100%;
-				height: 100vh;
-				padding: 7px;
-				border: 1px solid rgba(255, 255, 255, 0.6);
-				background: rgba(178,215,255,0.75);
-			}	
-			
-			.box span {
-				display: block;
-			}
-			
-			span.head {
-				font-weight: bold;				
-			}
-		
-		}
-		</style> 
-	</head> 
-
+    </head>
+    
 	<body>
-		<div class="boxers" id="boxx">
-		<h3> Touch Me! </h3>
-		
-		 
-		<h3 id="statusdiv">Status</h3>
-		<div id="yes"> 
-				<div class="box" id="accel">
-					<span class="head">Accelerometer</span>
-					<span id="xlabel"></span>
-					<span id="ylabel"></span>
-					<span id="zlabel"></span>
-					<span id="ilabel"></span>					
-					<span id="arAlphaLabel"></span>										
-					<span id="arBetaLabel"></span>										
-					<span id="arGammaLabel"></span>																				
-				</div>		
+	<div id="boxx">
+		<a-scene>
 			
-				<div class="box" id="gyro">
-					<span class="head">Gyroscope</span>
-					<span id="alphalabel"></span>			
-					<span id="betalabel"></span>
-					<span id="gammalabel"></span>
-				</div>
+			<a-entity id='cameraWrapper' position="0 0 0" rotation="0 0 0">
+			  <a-camera  camera="zoom: 1" look-controls="enabled: true"></a-camera>
+			</a-entity>
+			
+			<a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9" shadow></a-box>
+			<a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E" shadow></a-sphere>
+			<a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D" shadow></a-cylinder>
+			<a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4" shadow></a-plane>
+			<a-sky color="#ECECEC"></a-sky>
 				
-		</div>
-		<div id="no">
-			Your browser does not support Device Orientation and Motion API. Try this sample with iPhone, iPod or iPad with iOS 4.2+.    
-		</div>
-
-		
+		</a-scene>
+	</div>
 		<script>
-		
 			var stage = document.getElementById("boxx"); 
-			var statusdiv = document.getElementById('statusdiv');
 			
 			var mc = new Hammer(stage);
 			mc.get('swipe').set({ direction: Hammer.DIRECTION_ALL });
+			
+			var pos = document.querySelector('#cameraWrapper').getAttribute('position');
+			var x1 = pos['x'];
+			var y1 = pos['y'];
+			var z1 = pos['z'];
+			
+			var rot = document.querySelector('#cameraWrapper').getAttribute('rotation');
+			var a = rot['x'];
+			var b = rot['y'];
+			var g = rot['z'];		
+			
+			setInterval(function() {
+				document.querySelector("#cameraWrapper").setAttribute('rotation', {x: a, y: b, z: g});
+			}, 1);
+			
+			mc.on("swipeleft", function () {
+				x1 = x1 + 0.2;
+				document.querySelector("#cameraWrapper").setAttribute('position', {x: x1, y: y1, z: y1});
+			});
 
-			mc.on("swipeleft", function () { 
-				statusdiv.innerHTML = 'swipe left'
-			}); 
-          
-           mc.on("swiperight", function () { 
-				statusdiv.innerHTML = 'swipe right'
+			mc.on("swiperight", function () { 
+				x1 = x1 - 0.2;
+				document.querySelector("#cameraWrapper").setAttribute('position', {x: x1, y: y1, z: z1});
 			});
 			
 			mc.on("swipeup", function () { 
-				statusdiv.innerHTML = 'swipe up'
+				z1 = z1 - 0.2;
+				document.querySelector("#cameraWrapper").setAttribute('position', {x: x1, y: y1, z: z1});
 			}); 
 			
-			mc.on("swipedown", function () { 
-				statusdiv.innerHTML = 'swipe down'
-			});
-			
-			mc.on("press", function (ev) { 
-				statusdiv.innerHTML = 'tap'
-			});
-			
-			mc.on("pressup", function (ev) { 
-				statusdiv.innerHTML = 'tap done'
+			mc.on("swipedown", function () { 			
+				z1 = z1 + 0.2;
+				document.querySelector("#cameraWrapper").setAttribute('position', {x: x1, y: y1, z: z1});
 			});
 			
 			
-			// Position Variables
-			var x = 0;
-			var y = 0;
-			var z = 0;
+		</script>
+    </body>
+</html>
 
-			// Speed - Velocity
-			var vx = 0;
-			var vy = 0;
-			var vz = 0;
-
-			// Acceleration
-			var ax = 0;
-			var ay = 0;
-			var az = 0;
-			var ai = 0;
-			var arAlpha = 0;
-			var arBeta = 0;
-			var arGamma = 0;
-
-			var delay = 100;
-			var vMultiplier = 0.01;
-		
-			var alpha = 0;
-			var beta = 0;
-			var gamma = 0;
-			
-			
-			
-			if (window.DeviceMotionEvent==undefined) {
-				document.getElementById("no").style.display="block";
-				document.getElementById("yes").style.display="none";
-			} 
-			else {
-				window.ondevicemotion = function(event) {
-					ax = Math.round(Math.abs(event.accelerationIncludingGravity.x * 1));
-					ay = Math.round(Math.abs(event.accelerationIncludingGravity.y * 1));
-					az = Math.round(Math.abs(event.accelerationIncludingGravity.z * 1));			
-					ai = Math.round(event.interval * 100) / 100;
-					rR = event.rotationRate;
-					if (rR != null) {
-						arAlpha = Math.round(rR.alpha);
-						arBeta = Math.round(rR.beta);
-						arGamma = Math.round(rR.gamma);
-					}
-
-/*					
-					ax = Math.abs(event.acceleration.x * 1000);
-					ay = Math.abs(event.acceleration.y * 1000);
-					az = Math.abs(event.acceleration.z * 1000);		
-	*/				
-				}
-								
-				window.ondeviceorientation = function(event) {
-					alpha = Math.round(event.alpha);
-					beta = Math.round(event.beta);
-					gamma = Math.round(event.gamma);
-				}				
-				
-				setInterval(function() {
-					document.getElementById("xlabel").innerHTML = "X: " + ax;
-					document.getElementById("ylabel").innerHTML = "Y: " + ay;
-					document.getElementById("zlabel").innerHTML = "Z: " + az;										
-					document.getElementById("ilabel").innerHTML = "I: " + ai;										
-					document.getElementById("arAlphaLabel").innerHTML = "arA: " + arAlpha;															
-					document.getElementById("arBetaLabel").innerHTML = "arB: " + arBeta;
-					document.getElementById("arGammaLabel").innerHTML = "arG: " + arGamma;																									
-					document.getElementById("alphalabel").innerHTML = "Alpha: " + alpha;
-					document.getElementById("betalabel").innerHTML = "Beta: " + beta;
-					document.getElementById("gammalabel").innerHTML = "Gamma: " + gamma;
-
-				}, delay);
-				
-				var variableToSend = 'foo';
-				$.post('test.php', {variable: variableToSend});
-
-			} 
-			</script>	
-		</div>
-		</body> 
-</html> 
