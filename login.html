@@ -3,12 +3,47 @@
         <link rel="stylesheet" type="text/css" href="style.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     </head>
+	<script type="text/javascript">
+		function enterName(){
+			var viewButton = document.getElementById("view");
+			var controllerButton = document.getElementById("controller");
+			var form = document.getElementById("nameForm");
+			var nameInput = document.getElementById("usr");
+			
+			viewButton.style.display = "none";
+			form.style.display = "block";
+			controllerButton.style.display = "none";
+			
+			nameInput.focus();
+		}
+		
+		function goBack(){
+			var viewButton = document.getElementById("view");
+			var controllerButton = document.getElementById("controller");
+			var form = document.getElementById("nameForm");
+
+			form.onsubmit = function(){return false}; 
+			viewButton.style.display = "block";
+			form.style.display = "none";
+			controllerButton.style.display = "block";
+		}
+		
+		function submitForm(){
+			var form = document.getElementById("nameForm");
+			form.onsubmit = function(){return true}; 
+		}
+	</script>
 	<body>
 		<img class="login-bg"/>
-		<div class="center">
+		<div class="container center">
 			<h1>Pick Your Role</h1>
-			<a class="btn btn-primary btn-lg" style="width:300px;" href="scene.php">View</a>
-			<a class="btn btn-primary btn-lg" style="width:300px;" href="controller.php">Controller</a>
+			<a id="view" class="btn btn-primary btn-lg" href="scene.php">View</a>
+			<button id="controller" class="btn btn-primary btn-lg" onclick="enterName()">Player</button>
+			<form id="nameForm" action="controller.php" method="post" style="display:none">
+				<input type="submit" class="btn btn-primary btn-lg" style="display:inline-block" id="submitButton" value="Submit" onclick="submitForm()">
+				<button id="back" class="btn btn-primary btn-lg" style="display:inline-block" onclick="goBack()">Back</button>
+				<input type="text" class="form-control input-lg" id="usr" name="usr" placeholder="Enter your name" required>
+			</form>
 		</div>
 	</body>
 </html>	

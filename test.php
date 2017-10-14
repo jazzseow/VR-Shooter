@@ -1,3 +1,7 @@
+<?php
+// Start the session
+session_start();
+?>
 <!DOCTYPE html> 
 <html xmlns="http://www.w3.org/1999/xhtml"> 
 	<head> 
@@ -55,6 +59,16 @@
 				background: rgba(178,215,255,0.75);
 			}	
 			
+			.boxers {
+				position: relative;
+				float: left;
+				width: 100%;
+				height: 100vh;
+				padding: 7px;
+				border: 1px solid rgba(255, 255, 255, 0.6);
+				background: rgba(178,215,255,0.75);
+			}	
+			
 			.box span {
 				display: block;
 			}
@@ -68,6 +82,11 @@
 	</head> 
 
 	<body>
+		<div class="boxers" id="boxx">
+		<h3> Touch Me! </h3>
+		
+		 
+		<h3 id="statusdiv">Status</h3>
 		<div id="yes"> 
 				<div class="box" id="accel">
 					<span class="head">Accelerometer</span>
@@ -91,8 +110,37 @@
 		<div id="no">
 			Your browser does not support Device Orientation and Motion API. Try this sample with iPhone, iPod or iPad with iOS 4.2+.    
 		</div>
+
 		
 		<script> 
+			window.addEventListener('load', function(){
+ 
+				var box1 = document.getElementById('boxx')
+				var statusdiv = document.getElementById('statusdiv')
+				var startx = 0
+				var dist = 0
+			 
+				box1.addEventListener('touchstart', function(e){
+					var touchobj = e.changedTouches[0] // reference first touch point (ie: first finger)
+					startx = parseInt(touchobj.clientX) // get x position of touch point relative to left edge of browser
+					statusdiv.innerHTML = 'Status: touchstart<br> ClientX: ' + startx + 'px'
+					e.preventDefault()
+				}, false)
+			 
+				box1.addEventListener('touchmove', function(e){
+					var touchobj = e.changedTouches[0] // reference first touch point for this event
+					var dist = parseInt(touchobj.clientX) - startx
+					statusdiv.innerHTML = 'Status: touchmove<br> Horizontal distance traveled: ' + dist + 'px'
+					e.preventDefault()
+				}, false)
+			 
+				box1.addEventListener('touchend', function(e){
+					var touchobj = e.changedTouches[0] // reference first touch point for this event
+					statusdiv.innerHTML = 'Status: touchend<br> Resting x coordinate: ' + touchobj.clientX + 'px'
+					e.preventDefault()
+				}, false)
+		 
+			}, false)
 			// Position Variables
 			var x = 0;
 			var y = 0;
@@ -120,6 +168,7 @@
 			var gamma = 0;
 			
 			
+			
 			if (window.DeviceMotionEvent==undefined) {
 				document.getElementById("no").style.display="block";
 				document.getElementById("yes").style.display="none";
@@ -128,7 +177,7 @@
 				window.ondevicemotion = function(event) {
 					ax = Math.round(Math.abs(event.accelerationIncludingGravity.x * 1));
 					ay = Math.round(Math.abs(event.accelerationIncludingGravity.y * 1));
-					az = Math.round(Math.abs(event.accelerationIncludingGravity.z * 1));		
+					az = Math.round(Math.abs(event.accelerationIncludingGravity.z * 1));			
 					ai = Math.round(event.interval * 100) / 100;
 					rR = event.rotationRate;
 					if (rR != null) {
@@ -166,7 +215,9 @@
 				
 				var variableToSend = 'foo';
 				$.post('test.php', {variable: variableToSend});
+
 			} 
-			</script> 
+			</script>	
+		</div>
 		</body> 
 </html> 
