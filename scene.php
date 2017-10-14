@@ -12,15 +12,24 @@
                 <a-assets>
                     <img id="texture" src="assets/texture.jpg"/>
                     <img id="sky" src="assets/skybox.jpg">
+
+                    <a-mixin id="cube" geometry="primitive: box"></a-mixin>
+                    <a-mixin id="cube-hovered" material="color: magenta"></a-mixin>
+                    <a-mixin id="cube-selected" material="color: cyan"></a-mixin>
+                    <a-mixin id="red" material="color: red"></a-mixin>
+                    <a-mixin id="green" material="color: green"></a-mixin>
+                    <a-mixin id="blue" material="color: blue"></a-mixin>
+                    <a-mixin id="yellow" material="color: yellow"></a-mixin>
+                    <a-mixin id="sphere" geometry="primitive: sphere"></a-mixin>
                 </a-assets>
 
                 <!-- 360-degree Image -->
                 <a-sky src="#sky"></a-sky>
 
                 <!-- Define the Camera and Cursor -->
-                <a-entity position="0 2 4">
+                <a-entity position="0 2.2 4">
                     <a-entity camera look-controls wasd-controls>
-                        <a-entity position="0 6 -3"
+                        <a-entity position="0 0 -3"
                             geometry="primitive: ring; radiusInner: 0.1; radiusOuter: 0.2;"
                             material="color: cyan; shader: flat"
                             cursor="maxDistance: 30; fuse: true">
@@ -41,3 +50,4 @@
             </a-scene>
         </body>
 </html>
+
