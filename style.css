@@ -1,5 +1,5 @@
 .login-bg{
-	background: url("img/login_bg.jpg");
+	background: url("assets/login_bg.jpg");
 	background-position: center center;
 	-webkit-filter: blur(8px);
 	-moz-filter: blur(8px);
